@@ -1,31 +1,33 @@
 :root {
-  /* Colors */
+  /* Colors - Mount Gambier Nails & Spa Luxury Palette */
   --bg-pure-white: #FFFFFF;
-  --pink-gradient: #FFD6E8;
-  --lavender-gradient: #E8D6FF;
-  --baby-blue-gradient: #D6F0FF;
-  --peach-gradient: #FFE8D6;
-  --text-primary: #1A1A1A;
-  --text-secondary: #6B6B6B;
+  --primary-sage: #7B8E7E;
+  --secondary-cream: #F9F7F2;
+  --accent-gold: #D4AF37;
+  --text-primary: #2D2D2D;
+  --text-secondary: #5C5C5C;
+  
+  /* Gradient Updates - More organic and subtle */
+  --pink-gradient: #FDF4F5;
+  --lavender-gradient: #F5F4FD;
+  --baby-blue-gradient: #F4FBFD;
+  --peach-gradient: #FDF9F4;
   
   /* Typography */
   --font-headline: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
   
   /* UI Elements */
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-blur: blur(8px);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(123, 142, 126, 0.1);
+  --glass-blur: blur(12px);
   
   --radius-pill: 100px;
-  --radius-card: 16px;
-  --radius-image: 24px;
+  --radius-card: 24px;
+  --radius-image: 32px;
   
   --max-width: 1440px;
   --content-width: 1200px;
-  
-  --spacing-section-desktop: 120px;
-  --spacing-section-mobile: 64px;
 }
 
 * {
@@ -37,13 +39,15 @@
 body {
   font-family: var(--font-body);
   color: var(--text-primary);
-  background-color: var(--bg-pure-white);
+  background-color: transparent;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
 h1, h2, h3, h4 {
   font-family: var(--font-headline);
   font-weight: 500;
+  line-height: 1.1;
 }
 
 /* Animated Mesh Gradient Background */
@@ -96,40 +100,29 @@ h1, h2, h3, h4 {
 }
 
 /* Animations */
-.reveal {
+.reveal, .reveal-scale, .reveal-blur {
   opacity: 0;
-  transform: translateY(40px);
   transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
 }
 
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
+.reveal { transform: translateY(40px); }
+.reveal-scale { transform: scale(0.9); }
+.reveal-blur { filter: blur(20px); transform: translateY(20px); }
+
+.reveal.active, .reveal-scale.active, .reveal-blur.active {
+  opacity: 1 !important;
+  transform: translate(0, 0) scale(1) !important;
+  filter: blur(0) !important;
 }
 
-.reveal-scale {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.reveal-scale.active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.reveal-blur {
-  opacity: 0;
-  filter: blur(20px);
-  transform: translateY(20px);
-  transition: all 1s ease-out;
-}
-
-.reveal-blur.active {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
+/* Fallback if JS is disabled or observer fails */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-scale, .reveal-blur {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
 }
 
 /* Stagger delays */
@@ -169,6 +162,12 @@ h1, h2, h3, h4 {
 
 html {
   scroll-behavior: smooth;
+}
+
+.section-container {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 .btn {

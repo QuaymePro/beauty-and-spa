@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './styles/global.css';
+import './styles/app-shell.css';
 import MeshGradient from './components/MeshGradient';
 import Home from './pages/Home';
 import Technology from './pages/Technology';
 import Routine from './pages/Routine';
 import Community from './pages/Community';
 import { useScrollProgress } from './hooks/useAnimation';
+import { Phone, Mail, MapPin, Instagram, Clock } from 'lucide-react';
 
-// Scroll to top on route change
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -19,28 +20,16 @@ const ScrollToTop = () => {
 
 const Navbar: React.FC = () => {
   return (
-    <header className="header section-container" style={{ 
-      display: 'flex', 
-      justifyContent: 'space-between', 
-      alignItems: 'center',
-      padding: '24px', 
-      position: 'fixed', 
-      top: 0, 
-      left: '50%',
-      transform: 'translateX(-50%)',
-      width: '100%', 
-      zIndex: 100,
-      background: 'rgba(255, 255, 255, 0.01)',
-      backdropFilter: 'blur(10px)'
-    }}>
-      <Link to="/" style={{ textDecoration: 'none', color: 'var(--text-primary)', fontSize: '24px', fontWeight: 600, fontFamily: 'var(--font-headline)' }}>
-        Overlay
+    <header className="header section-container">
+      <Link to="/" style={{ textDecoration: 'none', color: 'var(--text-primary)', display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+        <span style={{ fontSize: '20px', fontWeight: 600, fontFamily: 'var(--font-headline)', letterSpacing: '0.05em' }}>MOUNT GAMBIER</span>
+        <span style={{ fontSize: '14px', fontWeight: 400, color: 'var(--primary-sage)', letterSpacing: '0.2em' }}>NAILS & SPA</span>
       </Link>
       
       <nav style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
-        <Link to="/technology" className="nav-link">Technology</Link>
-        <Link to="/community" className="nav-link">Community</Link>
-        <Link to="/routine" className="btn btn-primary" style={{ padding: '10px 24px' }}>Get Started</Link>
+        <Link to="/technology" className="nav-link">Services</Link>
+        <Link to="/community" className="nav-link">Reviews</Link>
+        <Link to="/routine" className="btn btn-primary" style={{ padding: '10px 24px', backgroundColor: 'var(--primary-sage)' }}>Book Online</Link>
       </nav>
     </header>
   );
@@ -48,19 +37,50 @@ const Navbar: React.FC = () => {
 
 const Footer: React.FC = () => {
   return (
-    <footer style={{ padding: '120px 0', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-      <div className="section-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h2 style={{ fontSize: '48px', marginBottom: '16px' }}>Get started with Overlay today</h2>
-          <div style={{ display: 'flex', gap: '24px', color: 'var(--text-secondary)' }}>
-            <span>Instagram</span>
-            <span>Twitter</span>
-            <span>TikTok</span>
+    <footer className="footer" style={{ backgroundColor: 'var(--secondary-cream)' }}>
+      <div className="section-container">
+        <div className="footer-content" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '60px', paddingBottom: '60px' }}>
+          <div>
+            <h3 style={{ fontSize: '24px', marginBottom: '24px', fontFamily: 'var(--font-headline)' }}>Mount Gambier Nails & Spa</h3>
+            <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '24px' }}>
+              Your sanctuary for professional nail care and skin therapy in the heart of Mount Gambier. Experience luxury, precision, and care.
+            </p>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <a href="#" style={{ color: 'var(--primary-sage)' }}><Instagram size={20} /></a>
+            </div>
+          </div>
+
+          <div>
+            <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '24px' }}>Visit Us</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', color: 'var(--text-secondary)' }}>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                <MapPin size={18} style={{ color: 'var(--primary-sage)', flexShrink: 0 }} />
+                <span>Shop T18, Mount Gambier Marketplace,<br />182-210 Penola Rd, Mount Gambier SA 5290</span>
+              </div>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <Phone size={18} style={{ color: 'var(--primary-sage)' }} />
+                <span>+61 401 653 638</span>
+              </div>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <Clock size={18} style={{ color: 'var(--primary-sage)' }} />
+                <span>Late Night Thursday till 7:00 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '24px' }}>Opening Hours</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', color: 'var(--text-secondary)', fontSize: '14px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Mon - Wed</span><span>9:00 AM - 5:00 PM</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-primary)', fontWeight: 500 }}><span>Thursday</span><span>9:00 AM - 7:00 PM</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Fri - Sat</span><span>9:00 AM - 5:00 PM</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Sunday</span><span>Closed</span></div>
+            </div>
           </div>
         </div>
-        <div style={{ textAlign: 'right' }}>
-          <p style={{ fontSize: '24px', fontWeight: 500, marginBottom: '8px' }}>hello@overlay.com</p>
-          <p style={{ color: 'var(--text-secondary)' }}>Based in SF & NY</p>
+        
+        <div style={{ borderTop: '1px solid rgba(0,0,0,0.05)', paddingTop: '32px', textAlign: 'center', color: 'var(--text-secondary)', fontSize: '12px' }}>
+          © {new Date().getFullYear()} Mount Gambier Nails & Spa. All rights reserved.
         </div>
       </div>
     </footer>
@@ -74,7 +94,7 @@ const App: React.FC = () => {
     <Router>
       <div className="app">
         <ScrollToTop />
-        <div className="scroll-progress" style={{ width: `${progress}%` }}></div>
+        <div className="scroll-progress" style={{ width: `${progress}%`, background: 'var(--primary-sage)' }}></div>
         <MeshGradient />
         <Navbar />
         
@@ -88,47 +108,6 @@ const App: React.FC = () => {
         </main>
 
         <Footer />
-
-        <style>{`
-          .nav-link {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 14px;
-            transition: color 0.2s ease;
-          }
-          .nav-link:hover {
-            color: var(--text-primary);
-          }
-          @media (max-width: 768px) {
-            h1 { font-size: 48px !important; }
-            .section-container { padding: 0 16px !important; }
-            .header { 
-              flex-direction: column !important; 
-              gap: 20px !important; 
-              position: relative !important;
-              transform: none !important;
-              left: 0 !important;
-            }
-            nav { gap: 16px !important; }
-            div[style*="grid-template-columns: 1fr 1fr"] {
-              grid-template-columns: 1fr !important;
-              gap: 40px !important;
-            }
-            div[style*="grid-template-columns: repeat(4, 1fr)"],
-            div[style*="grid-template-columns: repeat(3, 1fr)"] {
-              grid-template-columns: 1fr !important;
-            }
-            footer div[style*="justify-content: space-between"] {
-              flex-direction: column !important;
-              gap: 40px !important;
-              text-align: center !important;
-            }
-            footer div[style*="text-align: right"] {
-              text-align: center !important;
-            }
-          }
-        `}</style>
       </div>
     </Router>
   );

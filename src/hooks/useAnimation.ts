@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 export const useIntersectionObserver = (options = {}) => {
   const [elements, setElements] = useState<HTMLElement[]>([]);
   const observer = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
+    if (observer.current) observer.current.disconnect();
+
     observer.current = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -13,16 +15,21 @@ export const useIntersectionObserver = (options = {}) => {
       });
     }, { threshold: 0.1, ...options });
 
-    elements.forEach((el) => observer.current?.observe(el));
+    elements.forEach((el) => {
+      if (el) observer.current?.observe(el);
+    });
 
     return () => observer.current?.disconnect();
   }, [elements, options]);
 
-  const setRef = (el: HTMLElement | null) => {
-    if (el && !elements.includes(el)) {
-      setElements((prev) => [...prev, el]);
+  const setRef = useCallback((el: HTMLElement | null) => {
+    if (el) {
+      setElements((prev) => {
+        if (prev.includes(el)) return prev;
+        return [...prev, el];
+      });
     }
-  };
+  }, []);
 
   return setRef;
 };
@@ -39,6 +46,7 @@ export const useScrollProgress = () => {
     };
 
     window.addEventListener('scroll', updateProgress);
+    updateProgress(); // Initial call
     return () => window.removeEventListener('scroll', updateProgress);
   }, []);
 

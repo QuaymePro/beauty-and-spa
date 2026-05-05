@@ -1,110 +1,117 @@
 import React from 'react';
-import SocialProof from '../components/SocialProof';
 import Gallery from '../components/Gallery';
 import { useIntersectionObserver } from '../hooks/useAnimation';
-import { Sparkles, Heart, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Home: React.FC = () => {
   const setRef = useIntersectionObserver();
 
   return (
-    <>
-      {/* Hero Section */}
-      <section className="hero section-container" style={{ textAlign: 'center', paddingTop: '160px', paddingBottom: '120px' }}>
-        <div ref={setRef} className="reveal" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '24px' }}>
-          <Star size={16} fill="var(--accent-gold)" color="var(--accent-gold)" />
-          <span style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--primary-sage)' }}>
-            Premier Beauty Sanctuary in Mount Gambier
-          </span>
-          <Star size={16} fill="var(--accent-gold)" color="var(--accent-gold)" />
-        </div>
-
-        <h1 ref={setRef} className="reveal delay-100" style={{ fontSize: '72px', maxWidth: '900px', margin: '0 auto 40px', lineHeight: 1.1 }}>
-          Artistry in Every Detail. Comfort in Every Moment.
-        </h1>
-        
-        <p ref={setRef} className="reveal delay-200" style={{ fontSize: '20px', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 48px' }}>
-          Experience the finest nail artistry and skin therapy at Mount Gambier Marketplace. From custom nail designs to rejuvenating spa treatments.
-        </p>
-
-        <div ref={setRef} className="reveal delay-300" style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginBottom: '80px' }}>
-          <Link to="/routine" className="btn btn-primary" style={{ backgroundColor: 'var(--primary-sage)' }}>Book Your Appointment</Link>
-          <Link to="/technology" className="btn btn-secondary">Explore Services</Link>
-        </div>
-        
-        <div ref={setRef} className="hero-visual reveal-scale delay-400" style={{ position: 'relative', maxWidth: '1000px', margin: '0 auto' }}>
-          <div 
-            style={{ 
-              width: '100%', 
-              height: '500px', 
-              backgroundColor: 'var(--secondary-cream)', 
-              borderRadius: '32px',
-              backgroundImage: 'url(https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&q=80&w=1200)',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              boxShadow: '0 40px 100px rgba(0,0,0,0.1)'
-            }}
-          >
-            <div style={{
-              width: '100%',
-              height: '100%',
-              background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4))',
-              borderRadius: '32px',
-              display: 'flex',
-              alignItems: 'flex-end',
-              padding: '40px',
-              color: 'white',
-              textAlign: 'left'
-            }}>
-              <div>
-                <h3 style={{ fontSize: '24px', marginBottom: '8px' }}>Exquisite Nail Artistry</h3>
-                <p style={{ opacity: 0.9 }}>Tailored designs for your unique style.</p>
-              </div>
+    <div className="award-home">
+      {/* Editorial Hero */}
+      <section className="section-container" style={{ paddingTop: '220px', paddingBottom: '160px' }}>
+        <div className="grid-editorial">
+          <div className="asym-1">
+            <h4 ref={setRef} className="reveal-editorial" style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.4em', marginBottom: '32px', color: 'var(--primary-sage)' }}>
+              Mount Gambier, South Australia
+            </h4>
+            <h1 ref={setRef} className="reveal-editorial delay-100" style={{ fontSize: '110px', marginBottom: '48px', fontWeight: 300 }}>
+              The Art of <br /><em>Restoration.</em>
+            </h1>
+            <p ref={setRef} className="reveal-editorial delay-200" style={{ fontSize: '20px', color: 'var(--text-secondary)', maxWidth: '400px', marginBottom: '48px', lineHeight: 1.8 }}>
+              A sanctuary where architectural precision meets organic care. We redefine the beauty experience through silence and artistry.
+            </p>
+            <div ref={setRef} className="reveal-editorial delay-300">
+              <Link to="/routine" className="btn-luxury" style={{ textDecoration: 'none' }}>Begin Experience</Link>
             </div>
+          </div>
+          
+          <div className="asym-2">
+            <div 
+              ref={setRef} 
+              className="reveal-editorial" 
+              style={{ 
+                width: '100%', 
+                height: '600px', 
+                backgroundColor: 'var(--secondary-cream)',
+                backgroundImage: 'url(https://images.unsplash.com/photo-1560750588-73207b1ef5b8?auto=format&fit=crop&q=80&w=800)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'grayscale(0.2)'
+              }}
+            ></div>
           </div>
         </div>
       </section>
 
-      {/* Featured Services Grid */}
-      <section style={{ padding: '120px 0', backgroundColor: 'var(--secondary-cream)' }}>
+      {/* Philosophy Section */}
+      <section style={{ backgroundColor: 'var(--secondary-cream)', padding: '160px 0' }}>
         <div className="section-container">
-          <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-            <h2 ref={setRef} className="reveal" style={{ fontSize: '48px', marginBottom: '24px' }}>Our Signature Treatments</h2>
-            <p ref={setRef} className="reveal delay-100" style={{ color: 'var(--text-secondary)', fontSize: '18px' }}>Premium care for your nails, skin, and soul.</p>
+          <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+            <h2 ref={setRef} className="reveal-editorial" style={{ fontSize: '56px', marginBottom: '40px' }}>Our Philosophy</h2>
+            <p ref={setRef} className="reveal-editorial delay-100" style={{ fontSize: '24px', lineHeight: 1.6, color: 'var(--primary-sage)', fontStyle: 'italic' }}>
+              "True beauty is an act of presence. At Mount Gambier Nails & Spa, we create the space for you to return to yourself."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Editorial Service Grid */}
+      <section style={{ padding: '160px 0' }}>
+        <div className="section-container">
+          <div className="grid-editorial" style={{ marginBottom: '100px' }}>
+            <div style={{ gridColumn: '1 / span 4' }}>
+              <h2 ref={setRef} className="reveal-editorial" style={{ fontSize: '48px' }}>Curated Treatments</h2>
+            </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '80px' }}>
             {[
-              { title: 'SNS & Acrylics', desc: 'Long-lasting strength and flawless finish with custom shaping.' },
-              { title: 'Spa Pedicures', desc: 'Relaxing foot therapy including exfoliation and massage.' },
-              { title: 'Luxury Facials', desc: 'Deep cleansing and rejuvenation for a radiant local glow.' }
-            ].map((service, i) => (
-              <div key={i} ref={setRef} className={`glass-card reveal-scale delay-${i * 100}`} style={{ padding: '40px', textAlign: 'center' }}>
-                <div style={{ width: '64px', height: '64px', backgroundColor: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', color: 'var(--primary-sage)' }}>
-                  <Sparkles size={24} />
+              { 
+                label: '01', 
+                title: 'Technical Artistry', 
+                desc: 'SNS, Acrylics, and Hand-painted designs that reflect your individual architecture.',
+                img: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&q=80&w=400' 
+              },
+              { 
+                label: '02', 
+                title: 'Dermal Therapy', 
+                desc: 'Rejuvenating facials using organic compounds and advanced skin technology.',
+                img: 'https://images.unsplash.com/photo-1570172619996-23b2ed125994?auto=format&fit=crop&q=80&w=400'
+              },
+              { 
+                label: '03', 
+                title: 'Sensory Pedicures', 
+                desc: 'Complete immersion therapy involving heat, pressure, and curated botanical oils.',
+                img: 'https://images.unsplash.com/photo-1519415510236-85592ac59c97?auto=format&fit=crop&q=80&w=400'
+              }
+            ].map((s, i) => (
+              <div key={i} ref={setRef} className="reveal-editorial" style={{ transitionDelay: `${i * 200}ms` }}>
+                <div style={{ width: '100%', aspectRatio: '1/1', marginBottom: '32px', overflow: 'hidden' }}>
+                   <img src={s.img} alt={s.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 1.5s ease' }} className="editorial-img" />
                 </div>
-                <h3 style={{ fontSize: '22px', marginBottom: '16px' }}>{service.title}</h3>
-                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>{service.desc}</p>
+                <div style={{ fontSize: '10px', letterSpacing: '0.2em', marginBottom: '16px', color: 'var(--accent-gold)' }}>{s.label}</div>
+                <h3 style={{ fontSize: '24px', marginBottom: '16px' }}>{s.title}</h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: 1.8 }}>{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <SocialProof />
       <Gallery />
 
-      {/* Trust Quote */}
-      <section style={{ padding: '120px 0', textAlign: 'center' }}>
-        <div className="section-container">
-          <Heart size={48} color="var(--primary-sage)" style={{ marginBottom: '32px' }} />
-          <h2 ref={setRef} className="reveal" style={{ fontSize: '40px', maxWidth: '800px', margin: '0 auto', fontStyle: 'italic' }}>
-            "We believe that beauty is not just about how you look, but how you feel. Our mission is to provide every client with a moment of peace and a touch of perfection."
-          </h2>
-        </div>
-      </section>
-    </>
+      <style>{`
+        .editorial-img:hover {
+          transform: scale(1.05);
+        }
+        em {
+          font-family: 'Playfair Display';
+          font-style: italic;
+          color: var(--primary-sage);
+        }
+      `}</style>
+    </div>
   );
 };
 

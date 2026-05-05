@@ -1,34 +1,116 @@
 :root {
-  /* Colors - Mount Gambier Nails & Spa Luxury Palette */
-  --bg-pure-white: #FFFFFF;
-  --primary-sage: #7B8E7E;
-  --secondary-cream: #F9F7F2;
-  --accent-gold: #D4AF37;
-  --text-primary: #2D2D2D;
-  --text-secondary: #5C5C5C;
+  /* Award-Winning Refined Palette */
+  --bg-pure-white: #FFFCF9; /* Off-white for warmth */
+  --primary-sage: #5A6B5D;   /* Deeper, more sophisticated sage */
+  --secondary-cream: #F4EEE0;
+  --accent-gold: #C5A059;
+  --text-primary: #1A1A1A;
+  --text-secondary: #4A4A4A;
   
-  /* Gradient Updates - More organic and subtle */
-  --pink-gradient: #FDF4F5;
-  --lavender-gradient: #F5F4FD;
-  --baby-blue-gradient: #F4FBFD;
-  --peach-gradient: #FDF9F4;
+  /* Refined Gradients */
+  --soft-glow: radial-gradient(circle at center, rgba(197, 160, 89, 0.05) 0%, transparent 70%);
   
-  /* Typography */
+  /* Editorial Typography */
   --font-headline: 'Playfair Display', serif;
   --font-body: 'Inter', sans-serif;
   
-  /* UI Elements */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(123, 142, 126, 0.1);
-  --glass-blur: blur(12px);
+  /* High-Fidelity UI */
+  --glass-bg: rgba(255, 252, 249, 0.8);
+  --glass-border: rgba(90, 107, 93, 0.08);
+  --glass-blur: blur(20px);
   
   --radius-pill: 100px;
-  --radius-card: 24px;
-  --radius-image: 32px;
+  --radius-card: 0px; /* Modern architectural sharp edges */
+  --radius-image: 0px;
   
   --max-width: 1440px;
-  --content-width: 1200px;
+  --content-width: 1100px;
+  --gutter: 40px;
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background-color: var(--bg-pure-white);
+  overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-headline);
+  font-weight: 400; /* Lighter weight for luxury feel */
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* Asymmetrical Layout Primitives */
+.grid-editorial {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--gutter);
+}
+
+.asym-1 { grid-column: 2 / span 5; }
+.asym-2 { grid-column: 8 / span 4; margin-top: 100px; }
+
+/* Refined reveal animations */
+.reveal-editorial {
+  opacity: 0;
+  clip-path: inset(100% 0 0 0);
+  transform: translateY(30px);
+  transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.reveal-editorial.active {
+  opacity: 1;
+  clip-path: inset(0 0 0 0);
+  transform: translateY(0);
+}
+
+/* Luxury Buttons */
+.btn-luxury {
+  position: relative;
+  padding: 20px 40px;
+  background: none;
+  border: 1px solid var(--primary-sage);
+  color: var(--primary-sage);
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.btn-luxury::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-sage);
+  transition: all 0.4s ease;
+  z-index: -1;
+}
+
+.btn-luxury:hover {
+  color: white;
+}
+
+.btn-luxury:hover::before {
+  left: 0;
+}
+
 
 * {
   margin: 0;

@@ -86,12 +86,12 @@ const Home: React.FC = () => {
                 img: 'https://images.unsplash.com/photo-1519415510236-85592ac59c97?auto=format&fit=crop&q=80&w=400'
               }
             ].map((s, i) => (
-              <div key={i} ref={setRef} className="reveal-editorial" style={{ transitionDelay: `${i * 200}ms` }}>
-                <div style={{ width: '100%', aspectRatio: '1/1', marginBottom: '32px', overflow: 'hidden' }}>
-                   <img src={s.img} alt={s.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 1.5s ease' }} className="editorial-img" />
+              <div key={i} ref={setRef} className="reveal-editorial hover-lift" style={{ transitionDelay: `${i * 200}ms`, padding: '24px', margin: '-24px', borderRadius: '24px', transition: 'all 0.6s var(--ease-out-expo)' }}>
+                <div style={{ width: '100%', aspectRatio: '1/1', marginBottom: '32px', overflow: 'hidden', borderRadius: '8px' }}>
+                   <img src={s.img} alt={s.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 1.5s var(--ease-out-expo)' }} className="editorial-img" />
                 </div>
-                <div style={{ fontSize: '10px', letterSpacing: '0.2em', marginBottom: '16px', color: 'var(--accent-gold)' }}>{s.label}</div>
-                <h3 style={{ fontSize: '24px', marginBottom: '16px' }}>{s.title}</h3>
+                <div style={{ fontSize: '10px', letterSpacing: '0.2em', marginBottom: '16px', color: 'var(--accent-gold)', fontWeight: 600 }}>{s.label}</div>
+                <h3 style={{ fontSize: '24px', marginBottom: '16px', letterSpacing: '-0.01em' }}>{s.title}</h3>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: 1.8 }}>{s.desc}</p>
               </div>
             ))}

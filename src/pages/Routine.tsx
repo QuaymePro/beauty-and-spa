@@ -83,7 +83,7 @@ const Routine: React.FC = () => {
     return (
       <div className="booking-page" style={{ paddingTop: '100px' }}>
         <section className="section-container" style={{ textAlign: 'center', padding: '80px 0' }}>
-          <div className="glass-card no-print" style={{ padding: '64px', borderRadius: '40px', maxWidth: '700px', margin: '0 auto' }}>
+          <div className="glass-card no-print step-enter" style={{ padding: '64px', borderRadius: '40px', maxWidth: '700px', margin: '0 auto' }}>
             <div style={{ 
               width: '80px', 
               height: '80px', 
@@ -95,7 +95,16 @@ const Routine: React.FC = () => {
               justifyContent: 'center',
               margin: '0 auto 32px'
             }}>
-              <CheckCircle size={40} />
+              <svg width="40" height="40" viewBox="0 0 52 52">
+                <circle className="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                <path className="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" style={{
+                  strokeDasharray: '48',
+                  strokeDashoffset: '48',
+                  strokeWidth: '3',
+                  stroke: 'var(--primary-sage)',
+                  animation: 'stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards'
+                }}/>
+              </svg>
             </div>
             <h1 style={{ fontSize: '48px', marginBottom: '16px' }}>Booking Confirmed</h1>
             <p style={{ fontSize: '18px', color: 'var(--text-secondary)', marginBottom: '48px' }}>
@@ -107,7 +116,8 @@ const Routine: React.FC = () => {
               padding: '32px', 
               backgroundColor: 'var(--secondary-cream)', 
               borderRadius: '24px', 
-              marginBottom: '40px' 
+              marginBottom: '40px',
+              border: '1px solid rgba(0,0,0,0.02)'
             }}>
               <div style={{ display: 'grid', gap: '16px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -133,7 +143,7 @@ const Routine: React.FC = () => {
             <div style={{ display: 'flex', gap: '16px' }}>
               <button 
                 className="btn btn-secondary" 
-                style={{ flex: 1, borderColor: 'var(--primary-sage)', color: 'var(--primary-sage)' }}
+                style={{ flex: 1, borderColor: 'var(--primary-sage)', color: 'var(--primary-sage)', transition: 'all 0.3s var(--ease-out-expo)' }}
                 onClick={handlePrint}
               >
                 Download Receipt
@@ -276,7 +286,7 @@ const Routine: React.FC = () => {
                 </div>
               </div>
 
-              <div style={{ minHeight: '160px', marginBottom: '40px' }}>
+              <div key={step} className="step-enter" style={{ minHeight: '160px', marginBottom: '40px' }}>
                 {step === 1 && (
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     {services.map(s => (

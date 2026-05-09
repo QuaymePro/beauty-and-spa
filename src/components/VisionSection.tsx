@@ -8,36 +8,41 @@ const VisionSection: React.FC = () => {
   const visionImages = [
     { 
       url: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?auto=format&fit=crop&q=80&w=400', 
-      rotation: '-25deg', 
-      y: '100px' 
+      rotation: '-20deg', 
+      y: '140px',
+      x: '40px'
     },
     { 
       url: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&q=80&w=400', 
-      rotation: '-12deg', 
-      y: '20px' 
+      rotation: '-10deg', 
+      y: '40px',
+      x: '20px'
     },
     { 
       url: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&q=80&w=400', 
       rotation: '0deg', 
-      y: '0px' 
+      y: '0px',
+      x: '0px'
     },
     { 
       url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&q=80&w=400', 
-      rotation: '12deg', 
-      y: '20px' 
+      rotation: '10deg', 
+      y: '40px',
+      x: '-20px'
     },
     { 
       url: 'https://images.unsplash.com/photo-1526045431048-f857369aba09?auto=format&fit=crop&q=80&w=400', 
-      rotation: '25deg', 
-      y: '100px' 
+      rotation: '20deg', 
+      y: '140px',
+      x: '-40px'
     }
   ];
 
   return (
-    <section className="vision-section" style={{ padding: '160px 0', textAlign: 'center', backgroundColor: 'var(--bg-pure-white)' }}>
+    <section className="vision-section" style={{ padding: '160px 0', textAlign: 'center', backgroundColor: 'var(--bg-pure-white)', overflow: 'hidden' }}>
       <div className="section-container">
         {/* Badge */}
-        <div ref={setRef} className="reveal-editorial" style={{ marginBottom: '60px' }}>
+        <div ref={setRef} className="reveal-editorial" style={{ marginBottom: '80px' }}>
           <span style={{ 
             padding: '8px 24px', 
             borderRadius: '100px', 
@@ -56,10 +61,10 @@ const VisionSection: React.FC = () => {
         <div style={{ 
           display: 'flex', 
           justifyContent: 'center', 
-          alignItems: 'flex-start', 
-          gap: '20px', 
-          height: '500px', 
-          marginBottom: '40px',
+          alignItems: 'center', 
+          gap: '12px', 
+          minHeight: '480px', 
+          marginBottom: '80px',
           position: 'relative'
         }}>
           {visionImages.map((img, i) => (
@@ -68,20 +73,21 @@ const VisionSection: React.FC = () => {
               ref={setRef}
               className="reveal-editorial"
               style={{ 
-                width: '180px', 
-                aspectRatio: '0.85', 
-                borderRadius: '32px', 
+                width: '200px', 
+                aspectRatio: '0.8', 
+                borderRadius: '40px', 
                 overflow: 'hidden', 
-                transform: `translateY(${img.y}) rotate(${img.rotation})`,
-                boxShadow: '0 20px 40px rgba(0,0,0,0.05)',
-                transitionDelay: `${i * 100}ms`,
-                backgroundColor: 'var(--secondary-cream)'
+                transform: `translate(${img.x}, ${img.y}) rotate(${img.rotation})`,
+                boxShadow: '0 20px 60px rgba(0,0,0,0.08)',
+                transitionDelay: `${i * 150}ms`,
+                backgroundColor: 'var(--secondary-cream)',
+                flexShrink: 0
               }}
             >
               <img 
                 src={img.url} 
                 alt="Ritual detail" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'sepia(0.2) brightness(1.05)' }} 
+                style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'sepia(0.1) contrast(1.02)' }} 
               />
             </div>
           ))}

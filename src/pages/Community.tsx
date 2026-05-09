@@ -36,7 +36,7 @@ const Community: React.FC = () => {
   ];
 
   return (
-    <div className="reviews-page" style={{ paddingTop: '160px' }}>
+    <div className="reviews-page">
       <section className="section-container" style={{ textAlign: 'center', marginBottom: '40px' }}>
         <div ref={setRef} className="reveal" style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginBottom: '16px' }}>
           {[1, 2, 3, 4, 5].map(i => <Star key={i} size={20} fill="var(--accent-gold)" color="var(--accent-gold)" />)}

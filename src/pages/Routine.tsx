@@ -81,7 +81,7 @@ const Routine: React.FC = () => {
     };
 
     return (
-      <div className="booking-page" style={{ paddingTop: '100px' }}>
+      <div className="booking-page">
         <section className="section-container" style={{ textAlign: 'center', padding: '80px 0' }}>
           <div className="glass-card no-print step-enter" style={{ padding: '64px', borderRadius: '40px', maxWidth: '700px', margin: '0 auto' }}>
             <div style={{ 
@@ -223,7 +223,7 @@ const Routine: React.FC = () => {
   }
 
   return (
-    <div className="booking-page" style={{ paddingTop: '100px' }}>
+    <div className="booking-page">
       <section className="section-container" style={{ textAlign: 'center', marginBottom: '40px' }}>
         <h1 style={{ fontSize: '56px', marginBottom: '16px' }}>Reserve Your Moment</h1>
         <p style={{ fontSize: '20px', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto' }}>

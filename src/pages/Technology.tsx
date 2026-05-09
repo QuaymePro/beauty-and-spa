@@ -34,8 +34,8 @@ const Technology: React.FC = () => {
   ];
 
   return (
-    <div className="award-services" style={{ paddingTop: '220px' }}>
-      <section className="section-container">
+    <div className="award-services">
+      <section className="section-container" style={{ paddingTop: '60px', marginBottom: '120px' }}>
         <div className="grid-editorial" style={{ marginBottom: '120px' }}>
           <div style={{ gridColumn: '2 / span 6' }}>
             <h4 ref={setRef} className="reveal-editorial" style={{ fontSize: '10px', letterSpacing: '0.4em', textTransform: 'uppercase', marginBottom: '24px', color: 'var(--accent-gold)' }}>

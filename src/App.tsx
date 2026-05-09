@@ -7,8 +7,7 @@ import Home from './pages/Home';
 import Technology from './pages/Technology';
 import Routine from './pages/Routine';
 import Community from './pages/Community';
-import { useScrollProgress } from './hooks/useAnimation';
-import { Phone, Mail, MapPin, Instagram, Clock } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -46,7 +45,7 @@ const Footer: React.FC = () => {
               Your sanctuary for professional nail care and skin therapy in the heart of Mount Gambier. Experience luxury, precision, and care.
             </p>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <a href="#" style={{ color: 'var(--primary-sage)' }}><Instagram size={20} /></a>
+              <a href="#" style={{ color: 'var(--primary-sage)' }}>Instagram</a>
             </div>
           </div>
 
@@ -88,13 +87,10 @@ const Footer: React.FC = () => {
 };
 
 const App: React.FC = () => {
-  const progress = useScrollProgress();
-
   return (
     <Router>
       <div className="app">
         <ScrollToTop />
-        <div className="scroll-progress" style={{ width: `${progress}%`, background: 'var(--primary-sage)' }}></div>
         <MeshGradient />
         <Navbar />
         

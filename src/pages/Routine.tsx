@@ -3,14 +3,214 @@ import { ArrowRight, Sparkles, Scissors, Smile, Calendar, CheckCircle } from 'lu
 
 const Routine: React.FC = () => {
   const [step, setStep] = useState(1);
-  const totalSteps = 4;
+  const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [selectedArtist, setSelectedArtist] = useState<string | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [contactInfo, setContactInfo] = useState({ name: '', phone: '', email: '' });
+  const [isConfirmed, setIsConfirmed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const totalSteps = 5;
 
   const steps = [
     { title: 'Select Service', description: 'What treatment would you like today?', icon: <Scissors /> },
     { title: 'Choose Artist', description: 'Prefer a specific team member?', icon: <Smile /> },
     { title: 'Date & Time', description: 'When should we expect you?', icon: <Calendar /> },
+    { title: 'Contact Info', description: 'How can we reach you?', icon: <Sparkles /> },
     { title: 'Confirmation', description: 'Almost there! Review your booking.', icon: <CheckCircle /> }
   ];
+
+  const services = ['Full Set Acrylic', 'SNS Powder', 'Spa Pedicure', 'Facial'];
+  const artists = ['Any Artist', 'Sarah', 'Michelle', 'Jessica'];
+  const times = ['9:00 AM', '10:30 AM', '1:00 PM', '3:30 PM'];
+
+  const canProceed = () => {
+    if (step === 1) return selectedService !== null;
+    if (step === 2) return selectedArtist !== null;
+    if (step === 3) return selectedTime !== null;
+    if (step === 4) return contactInfo.name.trim() !== '' && (contactInfo.phone.trim() !== '' || contactInfo.email.trim() !== '');
+    return true;
+  };
+
+  const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleNext = async () => {
+    if (step === totalSteps) {
+      setIsSubmitting(true);
+      setError(null);
+      
+      try {
+        const response = await fetch('http://localhost:8080/api/bookings', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            service: selectedService,
+            artist: selectedArtist,
+            booking_time: selectedTime,
+            customer_name: contactInfo.name,
+            customer_phone: contactInfo.phone,
+            customer_email: contactInfo.email,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to create booking. Please try again or call us.');
+        }
+
+        const data = await response.json();
+        setConfirmedBooking(data);
+        setIsConfirmed(true);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      setStep(step + 1);
+    }
+  };
+
+  if (isConfirmed && confirmedBooking) {
+    const reference = confirmedBooking.reference;
+    
+    const handlePrint = () => {
+      window.print();
+    };
+
+    return (
+      <div className="booking-page" style={{ paddingTop: '100px' }}>
+        <section className="section-container" style={{ textAlign: 'center', padding: '80px 0' }}>
+          <div className="glass-card no-print" style={{ padding: '64px', borderRadius: '40px', maxWidth: '700px', margin: '0 auto' }}>
+            <div style={{ 
+              width: '80px', 
+              height: '80px', 
+              borderRadius: '50%', 
+              backgroundColor: 'rgba(90, 107, 93, 0.1)', 
+              color: 'var(--primary-sage)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 32px'
+            }}>
+              <CheckCircle size={40} />
+            </div>
+            <h1 style={{ fontSize: '48px', marginBottom: '16px' }}>Booking Confirmed</h1>
+            <p style={{ fontSize: '18px', color: 'var(--text-secondary)', marginBottom: '48px' }}>
+              Thank you, {contactInfo.name.split(' ')[0]}! Your appointment is set. We've sent details to your {contactInfo.phone ? 'phone' : 'email'}.
+            </p>
+            
+            <div style={{ 
+              textAlign: 'left', 
+              padding: '32px', 
+              backgroundColor: 'var(--secondary-cream)', 
+              borderRadius: '24px', 
+              marginBottom: '40px' 
+            }}>
+              <div style={{ display: 'grid', gap: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--text-secondary)' }}>Reference</span>
+                  <span style={{ fontWeight: 600 }}>#{reference}</span>
+                </div>
+                <div style={{ borderBottom: '1px solid rgba(0,0,0,0.05)', paddingBottom: '16px' }}></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--text-secondary)' }}>Service</span>
+                  <span style={{ fontWeight: 600 }}>{selectedService}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--text-secondary)' }}>Artist</span>
+                  <span style={{ fontWeight: 600 }}>{selectedArtist}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ color: 'var(--text-secondary)' }}>Time</span>
+                  <span style={{ fontWeight: 600 }}>{selectedTime}</span>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <button 
+                className="btn btn-secondary" 
+                style={{ flex: 1, borderColor: 'var(--primary-sage)', color: 'var(--primary-sage)' }}
+                onClick={handlePrint}
+              >
+                Download Receipt
+              </button>
+              <button 
+                className="btn btn-primary" 
+                style={{ flex: 1, backgroundColor: 'var(--primary-sage)' }}
+                onClick={() => {
+                  setIsConfirmed(false);
+                  setStep(1);
+                  setSelectedService(null);
+                  setSelectedArtist(null);
+                  setSelectedTime(null);
+                  setContactInfo({ name: '', phone: '', email: '' });
+                  setConfirmedBooking(null);
+                }}
+              >
+                Done
+              </button>
+            </div>
+          </div>
+          {/* ... Rest of printable receipt ... */}
+
+          {/* Printable Receipt */}
+          <div className="print-only" style={{ padding: '40px', fontFamily: 'serif' }}>
+            <div style={{ textAlign: 'center', borderBottom: '2px solid #000', paddingBottom: '20px', marginBottom: '20px' }}>
+              <h1 style={{ fontSize: '24px', textTransform: 'uppercase', letterSpacing: '2px' }}>Mount Gambier Nails & Spa</h1>
+              <p>Shop T18, Mount Gambier Marketplace</p>
+              <p>+61 401 653 638</p>
+            </div>
+            <div style={{ marginBottom: '40px' }}>
+              <h2 style={{ fontSize: '18px', marginBottom: '20px', textAlign: 'center' }}>BOOKING RECEIPT</h2>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <span>Reference:</span>
+                <span style={{ fontWeight: 'bold' }}>#{reference}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <span>Customer:</span>
+                <span style={{ fontWeight: 'bold' }}>{contactInfo.name}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <span>Date:</span>
+                <span style={{ fontWeight: 'bold' }}>{new Date().toLocaleDateString()}</span>
+              </div>
+              <div style={{ borderBottom: '1px dashed #ccc', margin: '20px 0' }}></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <span>Service:</span>
+                <span style={{ fontWeight: 'bold' }}>{selectedService}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <span>Artist:</span>
+                <span style={{ fontWeight: 'bold' }}>{selectedArtist}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <span>Scheduled Time:</span>
+                <span style={{ fontWeight: 'bold' }}>{selectedTime}</span>
+              </div>
+            </div>
+            <div style={{ textAlign: 'center', fontSize: '12px', marginTop: '60px' }}>
+              <p>Thank you for choosing Mount Gambier Nails & Spa.</p>
+              <p>Please arrive 5 minutes before your scheduled time.</p>
+            </div>
+          </div>
+        </section>
+
+        <style>{`
+          @media screen { .print-only { display: none; } }
+          @media print {
+            .no-print, .header, .footer, .mesh-gradient-container { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white !important; }
+            .booking-page { padding-top: 0 !important; }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="booking-page" style={{ paddingTop: '100px' }}>
@@ -76,26 +276,134 @@ const Routine: React.FC = () => {
                 </div>
               </div>
 
-              <div style={{ minHeight: '120px', marginBottom: '40px' }}>
+              <div style={{ minHeight: '160px', marginBottom: '40px' }}>
                 {step === 1 && (
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                    {['Full Set Acrylic', 'SNS Powder', 'Spa Pedicure', 'Facial'].map(s => (
-                      <button key={s} style={{ padding: '16px', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.1)', background: 'white', cursor: 'pointer', textAlign: 'left', fontWeight: 500 }}>{s}</button>
+                    {services.map(s => (
+                      <button 
+                        key={s} 
+                        onClick={() => setSelectedService(s)}
+                        style={{ 
+                          padding: '16px', 
+                          borderRadius: '12px', 
+                          border: selectedService === s ? '2px solid var(--primary-sage)' : '1px solid rgba(0,0,0,0.1)', 
+                          background: selectedService === s ? 'rgba(122, 140, 122, 0.05)' : 'white', 
+                          cursor: 'pointer', 
+                          textAlign: 'left', 
+                          fontWeight: 500,
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        {s}
+                      </button>
                     ))}
                   </div>
                 )}
-                {step === 2 && <p style={{ color: 'var(--text-secondary)' }}>Loading available team members...</p>}
-                {step === 3 && <p style={{ color: 'var(--text-secondary)' }}>Opening calendar for Shop T18...</p>}
-                {step === 4 && <p style={{ color: 'var(--text-secondary)' }}>Reviewing your Mount Gambier Marketplace booking...</p>}
+                {step === 2 && (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    {artists.map(a => (
+                      <button 
+                        key={a} 
+                        onClick={() => setSelectedArtist(a)}
+                        style={{ 
+                          padding: '16px', 
+                          borderRadius: '12px', 
+                          border: selectedArtist === a ? '2px solid var(--primary-sage)' : '1px solid rgba(0,0,0,0.1)', 
+                          background: selectedArtist === a ? 'rgba(122, 140, 122, 0.05)' : 'white', 
+                          cursor: 'pointer', 
+                          textAlign: 'left', 
+                          fontWeight: 500,
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        {a}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {step === 3 && (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    {times.map(t => (
+                      <button 
+                        key={t} 
+                        onClick={() => setSelectedTime(t)}
+                        style={{ 
+                          padding: '16px', 
+                          borderRadius: '12px', 
+                          border: selectedTime === t ? '2px solid var(--primary-sage)' : '1px solid rgba(0,0,0,0.1)', 
+                          background: selectedTime === t ? 'rgba(122, 140, 122, 0.05)' : 'white', 
+                          cursor: 'pointer', 
+                          textAlign: 'left', 
+                          fontWeight: 500,
+                          transition: 'all 0.2s ease'
+                        }}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {step === 4 && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <input 
+                      type="text" 
+                      placeholder="Full Name" 
+                      value={contactInfo.name}
+                      onChange={(e) => setContactInfo({...contactInfo, name: e.target.value})}
+                      style={{ padding: '16px', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.1)', fontSize: '16px' }}
+                    />
+                    <input 
+                      type="tel" 
+                      placeholder="Mobile Number" 
+                      value={contactInfo.phone}
+                      onChange={(e) => setContactInfo({...contactInfo, phone: e.target.value})}
+                      style={{ padding: '16px', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.1)', fontSize: '16px' }}
+                    />
+                    <input 
+                      type="email" 
+                      placeholder="Email Address (Optional)" 
+                      value={contactInfo.email}
+                      onChange={(e) => setContactInfo({...contactInfo, email: e.target.value})}
+                      style={{ padding: '16px', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.1)', fontSize: '16px' }}
+                    />
+                  </div>
+                )}
+                {step === 5 && (
+                  <div style={{ padding: '24px', backgroundColor: 'var(--secondary-cream)', borderRadius: '16px' }}>
+                    <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: 'var(--text-secondary)' }}>Service</span>
+                      <span style={{ fontWeight: 600 }}>{selectedService}</span>
+                    </div>
+                    <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: 'var(--text-secondary)' }}>Artist</span>
+                      <span style={{ fontWeight: 600 }}>{selectedArtist}</span>
+                    </div>
+                    <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: 'var(--text-secondary)' }}>Time</span>
+                      <span style={{ fontWeight: 600 }}>{selectedTime}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: 'var(--text-secondary)' }}>For</span>
+                      <span style={{ fontWeight: 600 }}>{contactInfo.name}</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <button 
                 className="btn btn-primary" 
-                style={{ width: '100%', justifyContent: 'space-between', backgroundColor: 'var(--primary-sage)' }}
-                onClick={() => setStep(step < totalSteps ? step + 1 : 1)}
+                style={{ 
+                  width: '100%', 
+                  justifyContent: 'space-between', 
+                  backgroundColor: 'var(--primary-sage)',
+                  opacity: canProceed() && !isSubmitting ? 1 : 0.5,
+                  cursor: canProceed() && !isSubmitting ? 'pointer' : 'not-allowed'
+                }}
+                disabled={!canProceed() || isSubmitting}
+                onClick={handleNext}
               >
-                <span>{step === totalSteps ? 'Confirm Booking' : 'Next Step'}</span>
-                <ArrowRight size={20} />
+                <span>{isSubmitting ? 'Processing...' : step === totalSteps ? 'Confirm Booking' : 'Next Step'}</span>
+                {!isSubmitting && <ArrowRight size={20} />}
               </button>
             </div>
           </div>

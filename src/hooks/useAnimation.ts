@@ -1,12 +1,10 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 
 export const useIntersectionObserver = (options = {}) => {
-  const [elements, setElements] = useState<HTMLElement[]>([]);
   const observer = useRef<IntersectionObserver | null>(null);
+  const elementsRef = useRef<Set<HTMLElement>>(new Set());
 
   useEffect(() => {
-    if (observer.current) observer.current.disconnect();
-
     observer.current = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -15,19 +13,18 @@ export const useIntersectionObserver = (options = {}) => {
       });
     }, { threshold: 0.1, ...options });
 
-    elements.forEach((el) => {
-      if (el) observer.current?.observe(el);
+    // Observe all existing elements
+    elementsRef.current.forEach((el) => {
+      observer.current?.observe(el);
     });
 
     return () => observer.current?.disconnect();
-  }, [elements, options]);
+  }, [options]);
 
   const setRef = useCallback((el: HTMLElement | null) => {
-    if (el) {
-      setElements((prev) => {
-        if (prev.includes(el)) return prev;
-        return [...prev, el];
-      });
+    if (el && !elementsRef.current.has(el)) {
+      elementsRef.current.add(el);
+      observer.current?.observe(el);
     }
   }, []);
 

@@ -6,7 +6,13 @@
   --accent-gold: #C5A059;
   --text-primary: #1A1A1A;
   --text-secondary: #4A4A4A;
-  
+
+  /* Mesh Gradient Colors */
+  --pink-gradient: #FFB5C5;
+  --lavender-gradient: #E6E6FA;
+  --baby-blue-gradient: #B5D8EB;
+  --peach-gradient: #FFDAB9;
+
   /* Refined Gradients */
   --soft-glow: radial-gradient(circle at center, rgba(197, 160, 89, 0.05) 0%, transparent 70%);
   
@@ -74,6 +80,20 @@ h1, h2, h3, h4 {
   transform: translateY(0);
 }
 
+/* Fallback: show content after 2 seconds if observer doesn't trigger */
+.reveal-editorial {
+  animation: revealFallback 2s forwards;
+  animation-delay: 2s;
+}
+
+@keyframes revealFallback {
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+}
+
 /* Luxury Buttons */
 .btn-luxury {
   position: relative;
@@ -109,27 +129,6 @@ h1, h2, h3, h4 {
 
 .btn-luxury:hover::before {
   left: 0;
-}
-
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: var(--font-body);
-  color: var(--text-primary);
-  background-color: transparent;
-  overflow-x: hidden;
-  min-height: 100vh;
-}
-
-h1, h2, h3, h4 {
-  font-family: var(--font-headline);
-  font-weight: 500;
-  line-height: 1.1;
 }
 
 /* Animated Mesh Gradient Background */

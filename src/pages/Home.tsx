@@ -1,5 +1,6 @@
 import React from 'react';
 import Gallery from '../components/Gallery';
+import VisionSection from '../components/VisionSection';
 import { useIntersectionObserver } from '../hooks/useAnimation';
 import { Link } from 'react-router-dom';
 
@@ -55,6 +56,8 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <VisionSection />
 
       {/* Editorial Service Grid */}
       <section style={{ padding: '160px 0' }}>

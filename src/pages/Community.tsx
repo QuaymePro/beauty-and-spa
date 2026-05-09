@@ -1,6 +1,7 @@
 import React from 'react';
 import Gallery from '../components/Gallery';
 import { AnimatedTestimonials } from '../components/AnimatedTestimonials';
+import { AnimatedCounter } from '../components/AnimatedCounter';
 import { useIntersectionObserver } from '../hooks/useAnimation';
 import { Star } from 'lucide-react';
 
@@ -52,19 +53,35 @@ const Community: React.FC = () => {
       </section>
 
       {/* Stats / Proof */}
-      <section style={{ backgroundColor: 'var(--secondary-cream)', padding: '100px 0', marginTop: '40px' }}>
-        <div className="section-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', textAlign: 'center', gap: '40px' }}>
-          {[
-            { value: '4.2', label: 'Star Rating' },
-            { value: '5k+', label: 'Happy Clients' },
-            { value: '10+', label: 'Expert Staff' },
-            { value: '100%', label: 'Hygiene Focus' }
-          ].map((stat, i) => (
-            <div key={i} ref={setRef} className="reveal">
-              <div style={{ fontSize: '48px', fontWeight: 600, color: 'var(--primary-sage)', marginBottom: '8px', fontFamily: 'var(--font-headline)' }}>{stat.value}</div>
-              <div style={{ fontSize: '14px', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-secondary)' }}>{stat.label}</div>
-            </div>
-          ))}
+      <section style={{ backgroundColor: 'var(--secondary-cream)', padding: '120px 0', marginTop: '40px', position: 'relative', overflow: 'hidden' }}>
+        {/* Subtle decorative elements */}
+        <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: '300px', height: '300px', borderRadius: '50%', background: 'var(--accent-gold)', opacity: 0.03, filter: 'blur(60px)' }}></div>
+        <div style={{ position: 'absolute', bottom: '-10%', left: '-5%', width: '400px', height: '400px', borderRadius: '50%', background: 'var(--primary-sage)', opacity: 0.05, filter: 'blur(80px)' }}></div>
+
+        <div className="section-container">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+            {[
+              { value: 4.2, decimals: 1, suffix: '', label: 'Star Rating', icon: '★' },
+              { value: 5, decimals: 0, suffix: 'k+', label: 'Happy Clients', icon: '♡' },
+              { value: 10, decimals: 0, suffix: '+', label: 'Expert Staff', icon: '✦' },
+              { value: 100, decimals: 0, suffix: '%', label: 'Hygiene Focus', icon: '⚓' }
+            ].map((stat, i) => (
+              <div key={i} ref={setRef} className="reveal glass-card hover-lift" style={{ 
+                padding: '40px 24px', 
+                textAlign: 'center', 
+                transitionDelay: `${i * 100}ms`,
+                border: '1px solid rgba(255,255,255,0.4)',
+                background: 'rgba(255,255,255,0.3)',
+                borderRadius: '24px'
+              }}>
+                <div style={{ fontSize: '12px', color: 'var(--accent-gold)', marginBottom: '16px', fontWeight: 600, letterSpacing: '0.1em' }}>{stat.icon}</div>
+                <div style={{ fontSize: '56px', fontWeight: 300, color: 'var(--primary-sage)', marginBottom: '8px', fontFamily: 'var(--font-headline)' }}>
+                  <AnimatedCounter value={stat.value} decimals={stat.decimals} suffix={stat.suffix} />
+                </div>
+                <div style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--text-secondary)', fontWeight: 500 }}>{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
